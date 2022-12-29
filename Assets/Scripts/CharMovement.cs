@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.UI;
 
 public class CharMovement : MonoBehaviour
 {
@@ -8,7 +7,8 @@ public class CharMovement : MonoBehaviour
     float yMove;
     float speed = 10f;
 
-    int health = 100;
+    public int health = 100;
+    public int killCount = 0;
 
     public bool grounded = true;
 
@@ -17,13 +17,11 @@ public class CharMovement : MonoBehaviour
     [SerializeField] GameObject gameScr;
     [SerializeField] GameObject hand;
     [SerializeField] GameObject door;
-
-    OpenDoor openDoor;
     private void Start()
     {
+        Time.timeScale = 1;
         PlayerCamera = GetComponentInChildren<Camera>();
         playerRb = GetComponent<Rigidbody>();
-        openDoor = door.GetComponent<OpenDoor>();
     }
     void Update()
     {
@@ -51,9 +49,21 @@ public class CharMovement : MonoBehaviour
         {
             Cursor.lockState = CursorLockMode.None;
             Time.timeScale = 0;
-            health = 100;
             gameScr.SetActive(false);
             gameOver.SetActive(true);
+        }
+        else
+        {
+            gameScr.SetActive(true);
+            gameOver.SetActive(false);
+        }
+
+        if(door.transform.position.y < 4.5f)
+        {
+            if (killCount == 4)
+            {
+                door.transform.Translate(Vector3.up * 5 * Time.deltaTime);
+            }
         }
     }
 
@@ -67,7 +77,6 @@ public class CharMovement : MonoBehaviour
             Enemy enemy = hit.transform.GetComponent<Enemy>();
             if(enemy != null)
             {
-                openDoor.enemies.Remove(enemy);
                 enemy.Hurt(10);
             }
         }
@@ -84,9 +93,9 @@ public class CharMovement : MonoBehaviour
             //Picking up the gun by setting it as a child of the player 
             if (gun != null && Input.GetKeyDown(KeyCode.E))
             {
-                gun.transform.position = cam.transform.position + new Vector3(1,-0.5f,-1.5f);
-                gun.transform.rotation = Quaternion.Euler(90f,0f,-30f);
-                gun.transform.parent = transform;
+                gun.transform.position = hand.transform.position;
+                gun.transform.localRotation = cam.transform.rotation;
+                gun.transform.parent = cam.transform;
                 hand.SetActive(false);
             }
         }

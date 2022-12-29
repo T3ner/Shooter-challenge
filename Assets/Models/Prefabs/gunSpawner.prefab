@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4613178486839710657}
   - component: {fileID: 7485468760445216523}
   m_Layer: 0
-  m_Name: gun spawner
+  m_Name: gunSpawner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

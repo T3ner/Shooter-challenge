@@ -3,10 +3,11 @@ using UnityEngine.SceneManagement;
 
 public class UI : MonoBehaviour
 {
+
     public void NewGame()
     {
         SceneManager.LoadScene(1);
-        Time.timeScale = 1.0f;
+        Time.timeScale = 1f;
     }
 
     public void Back()
