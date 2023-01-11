@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class CharMovement : MonoBehaviour
 {
@@ -25,6 +26,13 @@ public class CharMovement : MonoBehaviour
     }
     void Update()
     {
+        //Exit to main menu
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            SceneManager.LoadScene(0);
+            Cursor.lockState= CursorLockMode.None;
+        }
+
         if(Input.GetMouseButtonDown(0) && !transform.GetComponentInChildren<Gun>())
         {
             Punch();
@@ -86,7 +94,7 @@ public class CharMovement : MonoBehaviour
     void PickUp()
     {
         RaycastHit hit;
-        if (Physics.Raycast(PlayerCamera.transform.position, PlayerCamera.transform.forward, out hit, 5)){
+        if (Physics.Raycast(PlayerCamera.transform.position, PlayerCamera.transform.forward, out hit, 20)){
             Gun gun = hit.transform.GetComponent<Gun>();
             Transform cam = PlayerCamera.transform;
 
